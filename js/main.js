@@ -1,13 +1,6 @@
-/* ============================================
-   PORTFOLIO WEBSITE - MAIN JAVASCRIPT
-   ============================================ */
-
 (function() {
     'use strict';
 
-    /* ============================================
-       DOM READY
-       ============================================ */
     document.addEventListener('DOMContentLoaded', function() {
         initSmoothScroll();
         initWorkItemReveal();
@@ -15,9 +8,6 @@
         removeLoadingState();
     });
 
-    /* ============================================
-       SMOOTH SCROLL FOR ANCHOR LINKS
-       ============================================ */
     function initSmoothScroll() {
         const links = document.querySelectorAll('a[href^="#"]');
 
@@ -25,7 +15,6 @@
             link.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
 
-                // Skip if just "#"
                 if (href === '#') return;
 
                 const target = document.querySelector(href);
@@ -33,14 +22,12 @@
 
                 e.preventDefault();
 
-                // Close mobile nav if open
                 const navCollapse = document.querySelector('.navbar-collapse');
                 if (navCollapse && navCollapse.classList.contains('show')) {
                     const toggler = document.querySelector('.navbar-toggler');
                     if (toggler) toggler.click();
                 }
 
-                // Calculate offset for fixed header
                 const headerHeight = document.querySelector('.site-header').offsetHeight;
                 const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
 
@@ -52,21 +39,6 @@
         });
     }
 
-    /* ============================================
-       WORK ITEMS REVEAL ON SCROLL
-       Reveals work items with animation as they enter viewport
-       ============================================ */
-    function initWorkItemReveal() {
-        const workItems = document.querySelectorAll('.work-item');
-        if (!workItems.length) return;
-
-        // Check if IntersectionObserver is supported
-        if ('IntersectionObserver' in window) {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px 0px -100px 0px',
-                threshold: 0.1
-            };
 
             const observer = new IntersectionObserver(function(entries) {
                 entries.forEach(function(entry) {
@@ -85,23 +57,12 @@
                 observer.observe(item);
             });
         } else {
-            // Fallback for older browsers - reveal all immediately
             workItems.forEach(function(item) {
                 item.classList.add('revealed');
             });
         }
     }
 
-    /* ============================================
-       MOBILE NAVIGATION
-       ============================================ */
-    function initMobileNav() {
-        const toggler = document.querySelector('.navbar-toggler');
-        const navCollapse = document.querySelector('.navbar-collapse');
-
-        if (!toggler || !navCollapse) return;
-
-        // Close nav when clicking outside
         document.addEventListener('click', function(e) {
             if (navCollapse.classList.contains('show') &&
                 !navCollapse.contains(e.target) &&
@@ -111,19 +72,10 @@
         });
     }
 
-    /* ============================================
-       REMOVE LOADING STATE
-       Removes loading class after page load
-       ============================================ */
     function removeLoadingState() {
         document.body.classList.remove('loading');
     }
 
-    /* ============================================
-       UTILITY FUNCTIONS
-       ============================================ */
-
-    // Debounce function for performance
     function debounce(func, wait) {
         let timeout;
         return function executedFunction() {
@@ -138,7 +90,6 @@
         };
     }
 
-    // Throttle function for scroll events
     function throttle(func, limit) {
         let inThrottle;
         return function() {
